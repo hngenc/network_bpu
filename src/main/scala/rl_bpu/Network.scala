@@ -53,7 +53,7 @@ class Network(fp: FloatParams, nFeatures: Int, forward_latency: Int = 0, backwar
   deriver.io.y := y
   deriver.io.x := x
   deriver.io.w := weights // TODO do we need to buffer the weights as well?
-  deriver.io.learn_rate := ConstIntToFloat(fp, 1)
+  deriver.io.learn_rate := ConstFloatToFloat(fp, 0.0078125f)
 
   when (ShiftRegister(io.actual.fire(), backward_latency)) {
     weights := MatrixSubtract(fp, weights, deriver.io.dL_dW)
