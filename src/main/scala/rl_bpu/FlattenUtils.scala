@@ -1,3 +1,5 @@
+// See README.md for license details.
+
 package rl_bpu
 
 import chisel3._
