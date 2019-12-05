@@ -21,6 +21,7 @@ class Network(fp: FloatParams, nFeatures: Int, forward_latency: Int = 0, backwar
   val bias = Reg(Vec(2, fp.bits()))
 
   val fc = Module(new Linear(fp, nFeatures, 2, latency = forward_latency))
+  FlattenInst(fc)
 
   fc.io.features := io.inputs.bits
   fc.io.weights := weights
