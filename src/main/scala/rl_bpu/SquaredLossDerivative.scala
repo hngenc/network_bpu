@@ -34,7 +34,6 @@ extends Module {
 
   val z_minus_y = VectorSubtract(fp, io.z, io.y)
   val double_z_minus_y = VectorScalarMul(fp, z_minus_y, float_two)
-  // val double_z_minus_y_times_x_plus_double_w = VectorVectorMul(fp, double_z_minus_y, io.x, double_w)
   val double_z_minus_y_times_x_plus_double_w = VectorVectorMul(fp, double_z_minus_y, io.x, double_w,
     b_is_pn_ones = true)
 
