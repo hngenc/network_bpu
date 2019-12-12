@@ -16,6 +16,7 @@ class SyncMem2R1W[T <: Data](n: Int, t: T) extends Module {
     val wen = Input(Bool())
   })
 
+  /*
   val mem = SyncReadMem(n, t)
 
   when (io.wen) {
@@ -23,6 +24,17 @@ class SyncMem2R1W[T <: Data](n: Int, t: T) extends Module {
   }
 
   for (i <- 0 until 2) {
-    io.rdata(i) := RegEnable(mem.read(io.raddr(i), io.ren(i)), RegNext(io.ren(i)))
+    io.rdata(i) := RegEnable(mem.read(io.raddr(i), io.ren(i)), io.ren(i))
+  }
+  */
+
+  val mems = Seq.fill(2)(SyncReadMem(n, t))
+
+  when (io.wen) {
+    mems.foreach(_.write(io.waddr, io.wdata))
+  }
+
+  mems.zipWithIndex.foreach { case (mem, i) =>
+    io.rdata(i) := RegEnable(mem.read(io.raddr(i), io.ren(i)), io.ren(i))
   }
 }
