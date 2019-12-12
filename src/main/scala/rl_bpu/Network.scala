@@ -140,11 +140,11 @@ object BuildNetwork extends App {
   val nWeightRows = 64
   val fp = FloatParams(expWidth = 8, sigWidth = 7)
 
-  val name = s"Network_${forward_latency}_${backward_latency}"
+  val network_name = s"Network_${forward_latency}_${backward_latency}"
 
-  chisel3.Driver.execute(Array("-firw", "-frsq", s"-c:$name:-o:$name.mems.conf"),
+  chisel3.Driver.execute(Array("-firw", "-frsq", s"-c:$network_name:-o:$network_name.mems.conf"),
     () => new Network(fp, nFeatures, nWeightRows, forward_latency, backward_latency) {
-      override def desiredName: String = name
+      override def desiredName: String = network_name
     }
   )
 }
