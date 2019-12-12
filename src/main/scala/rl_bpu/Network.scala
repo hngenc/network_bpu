@@ -113,6 +113,11 @@ object BuildNetwork extends App {
     args match {
       case "-h" :: _ | "--help" :: _ => {
         println(usage)
+
+        chisel3.Driver.execute(Array("--help"),
+          () => new Network(FloatParams(1, 1), 1, 1, 0, 0)
+        )
+
         System.exit(0)
         throw new Exception("Unreachable")
       }
@@ -131,13 +136,16 @@ object BuildNetwork extends App {
 
   val forward_latency = optionMap.getOrElse('forward_latency, 0)
   val backward_latency = optionMap.getOrElse('backward_latency, 0)
-  val nFeatures = 40
+  val nFeatures = 37
   val nWeightRows = 64
   val fp = FloatParams(expWidth = 8, sigWidth = 7)
 
-  chisel3.Driver.execute(Array[String](),
+  val name = s"Network_${forward_latency}_${backward_latency}"
+
+  chisel3.Driver.execute(Array("-firw", "-frsq", s"-c:$name:-o:$name.mems.conf"),
     () => new Network(fp, nFeatures, nWeightRows, forward_latency, backward_latency) {
-      override def desiredName: String = s"Network_${forward_latency}_$backward_latency"
+      override def desiredName: String = name
     }
   )
 }
+
