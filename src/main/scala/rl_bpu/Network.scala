@@ -32,6 +32,10 @@ class Network(fp: FloatParams, nFeatures: Int, nWeightRows: Int,
   weights.io.waddr := DontCare
   weights.io.wdata := DontCare
 
+  biases.io.wen := false.B
+  biases.io.waddr := DontCare
+  biases.io.wdata := DontCare
+
   // Predict
   weights.io.ren(0) := io.req.valid
   weights.io.raddr(0) := io.req.bits.weights_row
